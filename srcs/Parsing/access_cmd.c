@@ -6,11 +6,16 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:08:21 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/06 17:18:08 by namalier         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:51:31 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
+
+/* Passer CPATH dans la struct en char ** car execve prend un char ** en argument
+ * avec /bin/ls [0]
+ * et -la [1]
+ */
 
 char	*ft_cpypath(char *argv, char *path)
 {
@@ -65,7 +70,7 @@ void	access_cmd(t_data *data, char **argv)
 
 	i = 2;
 	j = 0;
-	while (argv[i + 1])
+	while (argv[i + 2])
 	{
 		if (!ft_strchr(argv[i], '/'))
 			data->cmd[j] = try_access(data->path, argv[i]);
@@ -82,6 +87,5 @@ void	access_cmd(t_data *data, char **argv)
 		i++;
 		j++;
 	}
-//	data->cmd[j] = malloc(1*sizeof(char));
 	data->cmd[j] = NULL;
 }
