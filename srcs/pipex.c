@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:31:09 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/20 16:51:34 by natgomali        ###   ########.fr       */
+/*   Updated: 2024/09/23 16:56:51 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	get_path(char **envp, t_data *data)
 		exit(2);
 }
 
-int	max_arg(char **argv, t_data *data)
+int	max_arg_double(char **argv)
 {
+	size_t	i;
+
+	i = 0;
 	while (argv[i])
 		i++;
-	data->max_arg = i;
 	return (i);
 }
 
@@ -47,8 +49,7 @@ int main(int argc, char **argv, char** envp)
 		return (ft_printf("Error\nNot 5 args"), 0);
 	get_path(envp, &data);
 	access_input(&data, argv[1]);
-	access_output(&data, argv[max_arg(argv, &data)]);
+	access_output(&data, argv[max_arg_double(argv) - 1]);
 	access_cmd(&data, argv);
-	ft_printf("%s\n%s\n", data.cmd[0], data.cmd[1]);
 	return (0);
 }

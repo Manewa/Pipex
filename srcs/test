@@ -1,2 +1,0 @@
-		return (ft_printf("Error\nNot 5 args"), 0);
-	ft_printf("%s\n%s\n", data.cmd[0], data.cmd[1]);

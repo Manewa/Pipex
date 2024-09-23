@@ -16,6 +16,6 @@ void	access_input(t_data *data, char *argv)
 		data->input_fd = open(argv, O_RDONLY);
 	else
 		ft_free_error(data);
-	if (data->input_fd = -1)
+	if (data->input_fd == -1)
 		ft_free_error(data);
 }
