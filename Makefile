@@ -6,7 +6,7 @@
 #    By: namalier <namalier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 16:29:28 by namalier          #+#    #+#              #
-#    Updated: 2024/09/23 16:12:48 by namalier         ###   ########.fr        #
+#    Updated: 2024/09/24 13:56:29 by natgomali        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJDIR 			= obj
 LIBA			= includes/Libft/libft.a
 
 SRCS 			=	srcs/pipex.c ${PARSING}/ft_error.c ${PARSING}/access_cmd2.c\
-					${PARSING}/access_files.c \
+					${PARSING}/access_files.c ${PARSING}/lst.c \
 
 OBJS 			=	$(patsubst %.c,${OBJDIR}/%.o,$(notdir ${SRCS}))
 

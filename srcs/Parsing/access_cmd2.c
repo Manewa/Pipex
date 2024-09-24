@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:04:52 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/23 17:53:26 by namalier         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:51:27 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,30 @@
 //
 // AUCUNE ERREUR N'EST VRAIMENT BIEN GERE NI LEAKS NI MOTS D'ERREUR
 
-list	*full_path_cmd(t_data *data, list *cmd, char **cmd_n_flags)
+list	*full_path_cmd(list *cmd, char **cmd_n_flags)
 {
 	char	**only_cmd;
 	size_t	i;
 
 	cmd->pathcmd = ft_strdup(cmd_n_flags[0]);
 	if (!(cmd->pathcmd))
-		ft_free_both(data, cmd);
+		return (ft_free_doubletab(cmd_n_flags));
 	only_cmd = ft_split(cmd->pathcmd, '/');
 	if (!only_cmd)
-		ft_free_both(data, cmd);
+		return (ft_free_doubletab(cmd_n_flags));
 	i = max_arg_double(only_cmd) - 1;
 	cmd->cmd_flag[0] = ft_strdup(only_cmd[i]);
+	if (!(cmd->cmd_flag[0]))
+		return (ft_free_doubletab(cmd_n_flags));
 	i = 1;
 	while (cmd_n_flags[i])
 	{
 		cmd->cmd_flag[i] = ft_strdup(cmd_n_flags[i]);
 		if (!(cmd->cmd_flag[i]))
-			ft_free_error(data);
+			return (ft_free_doubletab(cmd_n_flags));
 		i++;
 	}
-	cmd->cmd_flag[i] = NULL;
+	ft_free_doubletab(only_cmd);
 	return (cmd);
 }
 
@@ -58,7 +60,7 @@ char	*ft_cpypath(char *argv, char *path)
 
 	i = 0;
 	j = 0;
-	Cpath = malloc((ft_strlen(argv) + ft_strlen(&path[i])) * sizeof(char));
+	Cpath = malloc((ft_strlen(argv) + ft_strlen(path) + 2) * sizeof(char));
 	if (!Cpath)
 		return(NULL);
 	while (path[i])
@@ -94,7 +96,8 @@ char	*try_access(t_data *data, list *cmd, char *cmd_no_flag)
 	ft_printf("Error\nCommand not found");
 	exit(2);
 }
-void	name_only_cmd(t_data *data, list *cmd, char **cmd_n_flags)
+
+int	name_only_cmd(t_data *data, list *cmd, char **cmd_n_flags)
 {
 	size_t	i;
 
@@ -103,67 +106,57 @@ void	name_only_cmd(t_data *data, list *cmd, char **cmd_n_flags)
 	{
 		cmd->cmd_flag[i] = ft_strdup(cmd_n_flags[i]);
 		if (!(cmd->cmd_flag[i]))
-			ft_free_both(data, cmd);
+			return (0);
 		i++;
 	}
-	cmd->cmd_flag[i] = NULL;
-	cmd->pathcmd = try_access(data, cmd, cmd_n_flags[0]);	
+	cmd->pathcmd = try_access(data, cmd, cmd_n_flags[0]);
+	return (1);
 }
 
-list	*create_list(char *argv, t_data *data)
+list	*create_node(char *argv, t_data *data)
 {
-	list	*head;
+	list	*node;
 	char	**cmd_n_flags;
 
 	cmd_n_flags = ft_split(argv, ' ');
-	head = malloc(sizeof(*head));
-	if (!head)
-	{
-		ft_free_doubletab(cmd_n_flags);
-		ft_free_error(data);
-	}
-	head->next = NULL;
-	head->cmd_flag = malloc(max_arg_double(cmd_n_flags) * sizeof(char *));
+	if (!cmd_n_flags)
+		return (NULL);
+	node = malloc(sizeof(*node));
+	if (!node)
+		return (ft_free_doubletab(cmd_n_flags));
+	node->next = NULL;
+	node->cmd_flag = malloc((max_arg_double(cmd_n_flags) + 1) * sizeof(char *));
+	node->cmd_flag[max_arg_double(cmd_n_flags)] = NULL;
+	if (!(node->cmd_flag))
+		return (ft_free_doubletab(cmd_n_flags));
 	if (ft_strchr(cmd_n_flags[0], '/'))
-		full_path_cmd(data, head, cmd_n_flags);
-	else
-		name_only_cmd(data, head, cmd_n_flags);
-	size_t i = 0;
-	while (head->cmd_flag[i])
 	{
-		printf("|%s|\n", head->cmd_flag[i]);
-		i++;
+		if (!(full_path_cmd(node, cmd_n_flags)))
+			return (ft_free_doubletab(cmd_n_flags));
 	}
-	printf("|%s|\n", head->pathcmd);
-	return (head);
-		
+	else
+		if (name_only_cmd(data, node, cmd_n_flags) == 0)
+			return (ft_free_doubletab(cmd_n_flags));
+	ft_free_doubletab(cmd_n_flags);
+	return (node);	
 }
 
 void	access_cmd(t_data *data, char **argv)
 {
 	size_t	i;
-	size_t	j;
 	list	*head;
+	list	*add;
 
 	i = 3;
-	j = 0;
-	head = create_list(argv[2], data);
-/*	while (argv[i + 1])
+	head = create_node(argv[2], data);
+	if (!head)
+		ft_free_error(data);
+	while (argv[i + 1])
 	{
-		if (!ft_strchr(argv[i], '/'))
-			access_fullpath(data, argv[i]);
-		else
-		{
-			if (access(argv[i], F_OK | X_OK) == 0)
-				data->cmd[j] = ft_strdup(argv[i]);
-			else
-			{
-				ft_printf("Error\nCommand not found");
-				exit (2);
-			}
-		}
+		add = create_node(argv[i], data);
+		if (!add)
+			ft_free_both(data, head);
+		pipex_lstadd_back(&head, add);
 		i++;
-		j++;
 	}
-	data->cmd[j] = NULL;*/
 }
