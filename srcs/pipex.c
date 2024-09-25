@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:31:09 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/23 16:56:51 by namalier         ###   ########.fr       */
+/*   Updated: 2024/09/25 23:38:00 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int main(int argc, char **argv, char** envp)
 	get_path(envp, &data);
 	access_input(&data, argv[1]);
 	access_output(&data, argv[max_arg_double(argv) - 1]);
-	access_cmd(&data, argv);
+	access_cmd(&data, argv, envp);
 	return (0);
 }

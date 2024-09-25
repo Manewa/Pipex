@@ -6,7 +6,7 @@
 /*   By: namalier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:47:22 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/05 17:53:41 by namalier         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:00:31 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 #endif

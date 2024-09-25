@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:18:07 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/24 17:33:53 by natgomali        ###   ########.fr       */
+/*   Updated: 2024/09/25 15:37:55 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 typedef struct	s_data
 {
 		char	**path;
-		int		max_arg;
 		int		input_fd;
 		int		output_fd;
 }						t_data;

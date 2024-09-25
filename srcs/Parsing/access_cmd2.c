@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:04:52 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/24 17:51:27 by natgomali        ###   ########.fr       */
+/*   Updated: 2024/09/26 01:12:21 by natgomali        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ list	*create_node(char *argv, t_data *data)
 	return (node);	
 }
 
-void	access_cmd(t_data *data, char **argv)
+void	access_cmd(t_data *data, char **argv, char **envp)
 {
 	size_t	i;
 	list	*head;
@@ -159,4 +159,5 @@ void	access_cmd(t_data *data, char **argv)
 		pipex_lstadd_back(&head, add);
 		i++;
 	}
+	fork_n_pipe(data, head, envp);
 }
