@@ -6,7 +6,7 @@
 /*   By: namalier <namalier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:44:38 by namalier          #+#    #+#             */
-/*   Updated: 2024/09/26 00:52:28 by natgomali        ###   ########.fr       */
+/*   Updated: 2024/09/26 17:26:43 by namalier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	fork_n_pipe(t_data *data, list *cmd, char **envp);
 
 /*********		try_access		*********/
 
-void	last_process(t_data *data, list *cmdp, int *pipefd);
-void	first_process(t_data *data, list *cmd, int *pipefd);
+void	last_process(t_data *data, list *cmdp, int *pipefd, int output_fd);
+void	first_process(t_data *data, list *cmd, int *pipefd, int input_fd);
 
 # endif

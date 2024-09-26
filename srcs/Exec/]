@@ -14,7 +14,6 @@ void	fork_n_pipe(t_data *data, list *cmd, char **envp)
 		pid = fork();
 		if (pid < 0)
 			ft_free_both(data, cmd);
-		cmd = cmd->next;
 		if (pid == 0)
 		{
 			first_process(data, cmd, pipefd, data->input_fd);
@@ -26,13 +25,12 @@ void	fork_n_pipe(t_data *data, list *cmd, char **envp)
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
 		}
+		if (execve(cmd->pathcmd, cmd->cmd_flag, envp) == -1)
+		{
+			ft_printf("Error : %s\n", strerror(errno));
+			ft_free_both(data, cmd);
+		}
 		cmd = cmd->next;
 	}
 	cmd = tmp;
-	tmp = tmp->next;
-	if (execve(tmp->pathcmd, tmp->cmd_flag, envp) == -1)
-	{
-		ft_printf("Error : %s\n", strerror(errno));
-		ft_free_both(data, cmd);
-	}
 }
